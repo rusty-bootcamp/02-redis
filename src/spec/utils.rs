@@ -1,3 +1,5 @@
+use bytes::{Buf, BytesMut};
+
 use super::RespError;
 
 pub const CRLF: &[u8] = b"\r\n";
@@ -31,4 +33,25 @@ pub fn extract_simple_frame_data(buf: &[u8], prefix: &str) -> Result<usize, Resp
     let end = find_crlf(buf, 1).ok_or(RespError::NotComplete)?;
 
     Ok(end)
+}
+
+pub fn extract_fixed_data(
+    buf: &mut BytesMut,
+    expect: &str,
+    expect_type: &str,
+) -> Result<(), RespError> {
+    if buf.len() < expect.len() {
+        return Err(RespError::NotComplete);
+    }
+
+    if !buf.starts_with(expect.as_bytes()) {
+        return Err(RespError::InvalidFrameType(format!(
+            "expect: {}, got: {:?}",
+            expect_type, buf,
+        )));
+    }
+
+    buf.advance(expect.len());
+
+    Ok(())
 }
