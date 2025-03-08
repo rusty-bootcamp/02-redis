@@ -30,17 +30,17 @@ pub enum RespFrame {
     Set(Set),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct SimpleString(pub String);
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct SimpleError(pub String);
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Null;
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct NullArray;
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct NullBulkString;
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct BulkString(pub Vec<u8>);
 #[derive(Debug)]
 pub struct Array(pub Vec<RespFrame>);

@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-#[derive(Debug, Error)]
+#[derive(Debug, Error, PartialEq, Eq)]
 pub enum RespError {
     #[error("Invalid frame: {0}")]
     InvalidFrame(String),
