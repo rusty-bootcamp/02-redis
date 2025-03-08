@@ -10,6 +10,7 @@ pub trait RespEncode {
 }
 
 pub trait RespDecode: Sized {
+    const PREFIX: &'static str;
     fn decode(buf: &mut BytesMut) -> Result<Self, RespError>;
     fn expect_length(buf: &[u8]) -> Result<usize, RespError>;
 }
@@ -50,6 +51,12 @@ pub struct Map(pub HashMap<String, RespFrame>);
 pub struct Set(pub HashSet<RespFrame>);
 
 impl SimpleString {
+    pub fn new(s: impl Into<String>) -> Self {
+        Self(s.into())
+    }
+}
+
+impl SimpleError {
     pub fn new(s: impl Into<String>) -> Self {
         Self(s.into())
     }
